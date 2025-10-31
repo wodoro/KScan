@@ -176,7 +176,7 @@ if (showScanner) {
         Button(onClick = {
             scannerController.setTorch(!scannerController.torchEnabled)
         }) {
-            Text("Torch ${if (scannerController.torchEnabled) "Off" else "On"}")
+            Text("Torch ${if (scannerController.torchEnabled) "On" else "Off"}")
         }
         Slider(
             value = scannerController.zoomRatio,
