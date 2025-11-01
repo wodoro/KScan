@@ -115,7 +115,7 @@ if (showScanner) {
 }
 ```
 
-If you want to remove the UI and just use the raw scanner, you can set the showUi parameter to false
+If you want to remove the UI and just use the raw scanner, you can set the scannerUiOptions parameter to `null`
 
 ```Kotlin
 if (showScanner) {
@@ -124,7 +124,7 @@ if (showScanner) {
             BarcodeFormats.FORMAT_QR_CODE,
             BarcodeFormats.FORMAT_EAN_13,
         ),
-        showUi = false
+        scannerUiOptions = null
     ) { result ->
         when (result) {
             is BarcodeResult.OnSuccess -> {
@@ -143,7 +143,7 @@ if (showScanner) {
 }
 ```
 
-To build a custom scanner UI with torch and zoom control, set showUi = false and use a ScannerController.
+To build a custom scanner UI with torch and zoom control, set `scannerUiOptions = null` and use a ScannerController.
 
 ```Kotlin
 val scannerController = remember { ScannerController() }
@@ -151,7 +151,7 @@ val scannerController = remember { ScannerController() }
 if (showScanner) {
     ScannerView(
         codeTypes = listOf(BarcodeFormat.FORMAT_ALL_FORMATS),
-        showUi = false,
+        scannerUiOptions = null,
         scannerController = scannerController
     ) { result ->
         when (result) {
