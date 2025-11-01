@@ -29,6 +29,7 @@ fun ScannerUI(
     zoomRatioOnChange: (Float) -> Unit,
     maxZoomRatio: Float,
     colors: ScannerColors = scannerColors(),
+    options: ScannerUiOptions = ScannerUiOptions(),
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -36,8 +37,10 @@ fun ScannerUI(
     ) {
         ScannerHeader(
             onCancel = onCancel,
+            showTorch = options.showTorch,
             torchEnabled = torchEnabled,
             onTorchEnabled = onTorchEnabled,
+            title = options.headerTitle,
             containerColor = colors.headerContainerColor,
             navigationIconColor = colors.headerNavigationIconColor,
             titleColor = colors.headerTitleColor,
@@ -52,13 +55,15 @@ fun ScannerUI(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        ScannerZoomAdjuster(
-            modifier = Modifier.padding(bottom = 30.dp),
-            zoomRatio = zoomRatio,
-            zoomRatioOnChange = zoomRatioOnChange,
-            maxZoomRatio = maxZoomRatio,
-            containerColor = colors.zoomControllerContainerColor,
-            contentColor = colors.zoomControllerContentColor,
-        )
+        if (options.showZoom) {
+            ScannerZoomAdjuster(
+                modifier = Modifier.padding(bottom = 30.dp),
+                zoomRatio = zoomRatio,
+                zoomRatioOnChange = zoomRatioOnChange,
+                maxZoomRatio = maxZoomRatio,
+                containerColor = colors.zoomControllerContainerColor,
+                contentColor = colors.zoomControllerContentColor,
+            )
+        }
     }
 }

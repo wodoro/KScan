@@ -50,7 +50,7 @@ fun CustomUI(modifier: Modifier = Modifier) {
                         listOf(
                             BarcodeFormat.FORMAT_ALL_FORMATS,
                         ),
-                    showUi = false,
+                    scannerUiOptions = null,
                     scannerController = scannerController,
                 ) { result ->
                     when (result) {

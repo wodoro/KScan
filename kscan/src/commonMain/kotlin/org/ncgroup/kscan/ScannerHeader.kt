@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
  *
  * @param modifier The modifier to be applied to the scanner header.
  * @param onCancel A callback function that is invoked when the cancel button is clicked.
+ * @param showTorch A boolean value that determines whether to show the torch button or not.
  * @param torchEnabled A boolean value that indicates whether the torch is enabled.
  * @param onTorchEnabled A callback function that is invoked when the torch toggle button is clicked.
  * @param containerColor The color of the container.
@@ -31,8 +32,10 @@ import androidx.compose.ui.graphics.Color
 internal fun ScannerHeader(
     modifier: Modifier = Modifier,
     onCancel: () -> Unit,
+    showTorch: Boolean,
     torchEnabled: Boolean,
     onTorchEnabled: (Boolean) -> Unit,
+    title: String,
     containerColor: Color = Color(0xFF291544),
     navigationIconColor: Color = Color.White,
     titleColor: Color = Color.White,
@@ -41,7 +44,7 @@ internal fun ScannerHeader(
     CenterAlignedTopAppBar(
         title = {
             Text(
-                text = "Scan Code",
+                text = title,
             )
         },
         navigationIcon = {
@@ -57,19 +60,21 @@ internal fun ScannerHeader(
             }
         },
         actions = {
-            IconButton(
-                onClick = {
-                    if (torchEnabled) {
-                        onTorchEnabled(false)
-                    } else {
-                        onTorchEnabled(true)
-                    }
-                },
-            ) {
-                Icon(
-                    imageVector = if (torchEnabled) Icons.Default.FlashOn else Icons.Default.FlashOff,
-                    contentDescription = null,
-                )
+            if (showTorch) {
+                IconButton(
+                    onClick = {
+                        if (torchEnabled) {
+                            onTorchEnabled(false)
+                        } else {
+                            onTorchEnabled(true)
+                        }
+                    },
+                ) {
+                    Icon(
+                        imageVector = if (torchEnabled) Icons.Default.FlashOn else Icons.Default.FlashOff,
+                        contentDescription = null,
+                    )
+                }
             }
         },
         colors =

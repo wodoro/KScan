@@ -8,7 +8,7 @@ actual fun ScannerView(
     modifier: Modifier,
     codeTypes: List<BarcodeFormat>,
     colors: ScannerColors,
-    showUi: Boolean,
+    scannerUiOptions: ScannerUiOptions?,
     scannerController: ScannerController?,
     filter: (Barcode) -> Boolean,
     result: (BarcodeResult) -> Unit
