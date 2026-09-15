@@ -75,6 +75,30 @@ class BarcodeFormatMapperTest {
     }
 
     @Test
+    fun `GIVEN a variant of a format WHEN toAppFormat THEN it folds onto the symbology`() {
+        // Asking for a symbology enables its variants, and zxing-cpp reports the
+        // variant when it can tell one, so these arrive for callers who only ever
+        // named the family.
+        assertEquals(BarcodeFormat.FORMAT_CODE_39, BarcodeFormatMapper.toAppFormat(BarcodeReader.Format.CODE_39_EXT))
+        assertEquals(BarcodeFormat.FORMAT_CODE_39, BarcodeFormatMapper.toAppFormat(BarcodeReader.Format.CODE_39_STD))
+        assertEquals(BarcodeFormat.FORMAT_QR_CODE, BarcodeFormatMapper.toAppFormat(BarcodeReader.Format.QR_CODE_MODEL_2))
+        assertEquals(BarcodeFormat.FORMAT_PDF417, BarcodeFormatMapper.toAppFormat(BarcodeReader.Format.COMPACT_PDF_417))
+        assertEquals(BarcodeFormat.FORMAT_AZTEC, BarcodeFormatMapper.toAppFormat(BarcodeReader.Format.AZTEC_CODE))
+        assertEquals(BarcodeFormat.FORMAT_ITF, BarcodeFormatMapper.toAppFormat(BarcodeReader.Format.ITF_14))
+    }
+
+    @Test
+    fun `GIVEN a retail variant WHEN toAppFormat THEN folding does not confuse it with its siblings`() {
+        // EAN-13, EAN-8, UPC-A and UPC-E are four variants of one symbology KScan
+        // does not name, so each has to come from the exact lookup rather than the
+        // fold, and a fifth variant it does not name stays unknown.
+        assertEquals(BarcodeFormat.FORMAT_EAN_13, BarcodeFormatMapper.toAppFormat(BarcodeReader.Format.EAN_13))
+        assertEquals(BarcodeFormat.FORMAT_UPC_A, BarcodeFormatMapper.toAppFormat(BarcodeReader.Format.UPC_A))
+        assertEquals(BarcodeFormat.TYPE_UNKNOWN, BarcodeFormatMapper.toAppFormat(BarcodeReader.Format.ISBN))
+        assertEquals(BarcodeFormat.TYPE_UNKNOWN, BarcodeFormatMapper.toAppFormat(BarcodeReader.Format.EAN_5))
+    }
+
+    @Test
     fun `GIVEN a format KScan does not expose WHEN toAppFormat THEN returns type unknown`() {
         val result = BarcodeFormatMapper.toAppFormat(BarcodeReader.Format.MAXI_CODE)
 
